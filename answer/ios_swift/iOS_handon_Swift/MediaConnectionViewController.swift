@@ -205,10 +205,7 @@ class MediaConnectionViewController: UIViewController {
         })
         
     }
-    
-    func closedMedia(){
-        
-    }
+
     
     
     
