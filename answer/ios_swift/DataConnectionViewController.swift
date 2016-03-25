@@ -161,8 +161,6 @@ class DataConnectionViewController: UIViewController {
         self.updateUI()
     }
     
-    /////////
-    
     //接続を終了する
     func close(){
         if _bEstablished == false{
