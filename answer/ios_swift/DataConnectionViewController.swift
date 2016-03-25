@@ -23,10 +23,9 @@ class DataConnectionViewController: UIViewController {
     
     @IBOutlet weak var sendButton: UIButton!
     
-    @IBOutlet weak var editMessage: UITextField!
-    
+
+    @IBOutlet weak var editMessageTextField: UITextField!
     @IBOutlet weak var logTextView: UITextView!
-    
     
     
     
@@ -52,8 +51,8 @@ class DataConnectionViewController: UIViewController {
         
         //APIキー、ドメインを設定
         let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = ""
-        option.domain = ""
+        option.key = "9a1fe3cc-2c8b-4577-97f9-d2edb382cd15"
+        option.domain = "localhost"
         
         // Peerオブジェクトのインスタンスを生成
         _peer = SKWPeer.init(options: option);
@@ -95,24 +94,24 @@ class DataConnectionViewController: UIViewController {
         
         //コールバックを登録(チャンネルOPEN)
         [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_OPEN, callback: { (obj:NSObject!) -> Void in
-            //[self appendLogWithHead:@"system" value:@"DataConnection opened."];
+            self.appendLogWithHead("system", value: "DataConnection opened")
             self._bEstablished = true;
             self.updateUI();
         })]
         
-        // コールバックを登録(チャンネルOCLOSE)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
+        // コールバックを登録(DATA受信)
+        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_DATA, callback: { (obj:NSObject!) -> Void in
             let strValue:String = obj as! String
-            //[self appendLogWithHead:@"Partner" value:strValue];
+            self.appendLogWithHead("Partner", value: strValue)
 
         })]
         
-        // コールバックを登録(チャンネルOCLOSE)
+        // コールバックを登録(チャンネルCLOSE)
         [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
             self._data = nil
             self._bEstablished = false
             self.updateUI()
-            ///[self appendLogWithHead:@"system" value:@"DataConnection closed."];
+            self.appendLogWithHead("system", value:"DataConnection closed.")
         })]
     }
     
@@ -164,14 +163,14 @@ class DataConnectionViewController: UIViewController {
     
     /////////
     
-    //ビデオ通話を終了する
+    //接続を終了する
     func close(){
         if _bEstablished == false{
             return
         }
         _bEstablished = false
         
-        if _data == nil{
+        if _data != nil {
             _data?.close()
         }
     }
@@ -179,10 +178,10 @@ class DataConnectionViewController: UIViewController {
     
     //テキストデータを送信する
     func send(data:String){
-        var bResult:Bool = (_data?.send(data))!
+        let bResult:Bool = (_data?.send(data))!
         
         if bResult == true {
-            //[self appendLogWithHead:@"You" value:data];
+            self.appendLogWithHead("You", value: data)
         }
     }
     
@@ -209,15 +208,14 @@ class DataConnectionViewController: UIViewController {
     /////////////////////////////////////////////////////////////////
     
     
-    
     func updateUI(){
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             
             //CALLボタンのアップデート
             if self._bEstablished == false{
-                self.callButton.titleLabel?.text = "Connect"
+                self.callButton.setTitle("CALL", forState: UIControlState.Normal)
             }else{
-                self.callButton.titleLabel?.text = "Disconnect"
+                self.callButton.setTitle("DISCONNECT", forState: UIControlState.Normal)
             }
             
             //IDラベルのアップデート
@@ -226,6 +224,7 @@ class DataConnectionViewController: UIViewController {
             }else{
                 self.idLabel.text = "your Id:"+self._id! as String
             }
+            
             self.sendButton.enabled = self._bEstablished
         }
     }
@@ -240,9 +239,9 @@ class DataConnectionViewController: UIViewController {
     
     
     @IBAction func pushSendButton(sender: AnyObject) {
-        let data:String = self.editMessage.text!;
+        let data:String = self.editMessageTextField.text!;
         self.send(data)
-        self.editMessage.text = ""
+        self.editMessageTextField.text = ""
     }
 
     
@@ -257,15 +256,36 @@ class DataConnectionViewController: UIViewController {
     
     
     func appendLogWithMessage(strMessage:String){
-        
-        var rng = UITextRange( NSMakeRange((editMessage.text?.characters.count)! + 1, 0)
-        editMessage.selectedTextRange = rng
-        
-        
+        var rng = NSMakeRange((logTextView.text?.characters.count)! + 1, 0)
+        logTextView.selectedRange = rng
+        logTextView.replaceRange(logTextView.selectedTextRange!, withText: strMessage)
+        rng = NSMakeRange(logTextView.text.characters.count + 1, 0)
+        logTextView.scrollRangeToVisible(rng)
         
     }
     
-    
+    func appendLogWithHead(strHeader: String?, value strValue: String) {
+        if 0 == strValue.characters.count {
+            return
+        }
+        let mstrValue = NSMutableString()
+        if nil != strHeader {
+            mstrValue.appendString("[")
+            mstrValue.appendString(strHeader!)
+            mstrValue.appendString("] ")
+        }
+        if 32000 < strValue.characters.count {
+//            var rng:NSRange = NSMakeRange(0, 32)
+            mstrValue.appendString(strValue.substringWithRange(Range<String.Index>(start:strValue.startIndex.advancedBy(0),end:strValue.startIndex.advancedBy(32))))
+            mstrValue.appendString("...")
+//            rng = NSMakeRange(strValue.characters.count - 32, 32)
+            mstrValue.appendString(strValue.substringWithRange(Range<String.Index>(start:strValue.startIndex.advancedBy(strValue.characters.count - 32),end:strValue.startIndex.advancedBy(32))))
+        } else {
+            mstrValue.appendString(strValue)
+        }
+        mstrValue.appendString("\n")
+        self.performSelectorOnMainThread("appendLogWithMessage:", withObject: mstrValue, waitUntilDone: true)
+    }
 }
 
 

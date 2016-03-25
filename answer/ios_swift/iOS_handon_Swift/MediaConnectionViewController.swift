@@ -49,8 +49,8 @@ class MediaConnectionViewController: UIViewController {
         
         //APIキー、ドメインを設定
         let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = ""
-        option.domain = ""
+        option.key = "9a1fe3cc-2c8b-4577-97f9-d2edb382cd15"
+        option.domain = "localhost"
         
         // Peerオブジェクトのインスタンスを生成
         _peer = SKWPeer.init(options: option);
@@ -180,7 +180,7 @@ class MediaConnectionViewController: UIViewController {
     func closeChat(){
         if _mediaConnection != nil{
             if _msRemote != nil{
-                var remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
+                let remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
 
                 remoteVideoView .removeSrc(_msRemote, track: 0)
                 _msRemote?.close()
