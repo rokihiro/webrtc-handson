@@ -60,11 +60,13 @@ class MediaConnectionViewController: UIViewController {
         /////////////////////  2.2．接続成功・失敗  /////////////////////
         //////////////////////////////////////////////////////////////
         
+        //コールバックを登録（ERROR)
         _peer?.on(SKWPeerEventEnum.PEER_EVENT_ERROR,callback:{ (obj: NSObject!) -> Void in
             let error:SKWPeerError = obj as! SKWPeerError
             print("\(error)")
         })
         
+        // コールバックを登録(OPEN)
         _peer?.on(SKWPeerEventEnum.PEER_EVENT_OPEN,callback:{ (obj: NSObject!) -> Void in
             self._id = obj as? String
             dispatch_async(dispatch_get_main_queue(), {
@@ -175,7 +177,7 @@ class MediaConnectionViewController: UIViewController {
         }
         self.updateUI()
     }
-    
+
     //ビデオ通話を終了する
     func closeChat(){
         if _mediaConnection != nil{
@@ -188,7 +190,6 @@ class MediaConnectionViewController: UIViewController {
             }
             _mediaConnection?.close()
         }
-        
     }
     
     
@@ -204,10 +205,7 @@ class MediaConnectionViewController: UIViewController {
         })
         
     }
-    
-    func closedMedia(){
-        
-    }
+
     
     
     
@@ -257,6 +255,15 @@ class MediaConnectionViewController: UIViewController {
         self.updateUI();
     }
     
+    @IBAction func pushCallButton(sender: AnyObject) {
+        
+        if self._mediaConnection == nil {
+            self.getPeerList()
+        }else{
+            self.performSelectorInBackground("closeChat", withObject: nil)
+        }
+    }
+    
     
     func updateUI(){
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -278,14 +285,7 @@ class MediaConnectionViewController: UIViewController {
     }
     
     
-    @IBAction func pushCallButton(sender: AnyObject) {
-        
-        if self._mediaConnection == nil {
-            self.getPeerList()
-        }else{
-            self.performSelectorInBackground("closeChat", withObject: nil)
-        }
-    }
+
     
     
     override func didReceiveMemoryWarning() {

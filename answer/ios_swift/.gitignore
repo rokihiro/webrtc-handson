@@ -88,4 +88,5 @@ Carthage/Build
 fastlane/report.xml
 fastlane/screenshots
 
-
+SkyWay.framework/
+.DS_Store

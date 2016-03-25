@@ -259,16 +259,6 @@ typedef NS_ENUM(NSUInteger, AlertType)
 }
 
 
-- (void)closedMedia
-{
-    [self unsetRemoteView];
-    
-    [self clearMediaCallbacks:_mediaConnection];
-    
-    _mediaConnection = nil;
-}
-
-
     //////////////////////////////////////////////////////////////////
     /////////////////////  2.6.　UIのセットアップ  /////////////////////
     /////////////////////////////////////////////////////////////////
