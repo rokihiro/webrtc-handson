@@ -77,12 +77,10 @@ typedef NS_ENUM(NSUInteger, DataType)
     ////////////////////////////////////////////////////////////
     
     //APIキー、ドメインを設定
-    SKWPeerOption* option = [[SKWPeerOption alloc] init];
-    option.key = @"";
-    option.domain = @"";
+
     
     // Peerオブジェクトのインスタンスを生成
-    _peer	= [[SKWPeer alloc] initWithId:nil options:option];
+
     
     
     ///////////////////////////////////////////////////////////////
@@ -91,37 +89,20 @@ typedef NS_ENUM(NSUInteger, DataType)
     
     
     //接続エラー時の処理：コールバックを登録（ERROR)
-    [_peer on:SKW_PEER_EVENT_ERROR callback:^(NSObject* obj)
-     {
-         SKWPeerError* error = (SKWPeerError*)obj;
-         NSLog(@"%@",error);
-     }];
+
     
     
     
     //接続成功時の処理：コールバックを登録（OPEN)
-    [_peer on:SKW_PEER_EVENT_OPEN callback:^(NSObject* obj)
-     {
-         _id = (NSString *)obj;
-         dispatch_async(dispatch_get_main_queue(), ^{
-             UILabel* lbl = (UILabel*)[self.view viewWithTag:TAG_ID];
-             [lbl setText:[NSString stringWithFormat:@"your ID: \n%@", _id]];
-         });
-     }];
+
     
     
     ////////////////////////////////////////////////////////////
     /////////////////////  3.3.相手から着信  /////////////////////
     ////////////////////////////////////////////////////////////
     
-    
-    [_peer on:SKW_PEER_EVENT_CONNECTION callback:^(NSObject* obj)
-     {
-        _data = (SKWDataConnection *)obj;
-        [self setDataCallback:_data];
-         _bEstablished = YES;
-         [self updateUI];
-     }];
+    //コールバックを登録（CONNECTION)
+
     
     
     [self setupUI];
@@ -131,30 +112,7 @@ typedef NS_ENUM(NSUInteger, DataType)
 //データチャネルのコールバック処理
 - (void)setDataCallback:(SKWDataConnection *)data
 {
-    //コールバックを登録(チャンネルOPEN)
-    [data on:SKW_DATACONNECTION_EVENT_OPEN callback:^(NSObject* obj)
-     {
-         [self appendLogWithHead:@"system" value:@"DataConnection opened."];
-         _bEstablished = YES;
-         [self updateUI];
-     }];
 
-    // コールバックを登録（データを受信)
-    [data on:SKW_DATACONNECTION_EVENT_DATA callback:^(NSObject* obj)
-     {
-         NSString* strValue = (NSString*)obj;
-         [self appendLogWithHead:@"Partner" value:strValue];
-         
-     }];
-
-    // コールバックを登録(チャンネルOCLOSE)
-    [data on:SKW_DATACONNECTION_EVENT_CLOSE callback:^(NSObject* obj)
-     {
-         _data = nil;
-         _bEstablished = NO;
-         [self updateUI];
-         [self appendLogWithHead:@"system" value:@"DataConnection closed."];
-     }];
 }
 
 
@@ -168,72 +126,28 @@ typedef NS_ENUM(NSUInteger, DataType)
 //接続相手を選択する
 - (void)getPeerList
 {
-    if ((nil == _peer) || (nil == _id) || (0 == _id.length)){
-        return;
-    }
-    
-    [_peer listAllPeers:^(NSArray* peers)
-     {
-         _listPeerIds = [[NSMutableArray alloc] init];
-         
-         for (NSString* strValue in peers)
-         {
-             if (NSOrderedSame == [_id caseInsensitiveCompare:strValue])
-             {
-                 continue;
-             }
-             
-             [_listPeerIds addObject:strValue];
-         }
-         if((nil != _listPeerIds) && (0< [_listPeerIds count]))
-         {
-             [self showPeerListDialog];
-         }
-         
-     }];
+
 }
 
 
 //データチャンネルを開く
 - (void)connect:(NSString *)strDestId
 {
-    // connect option
-    SKWConnectOption* option = [[SKWConnectOption alloc] init];
-    option.label = @"chat";
-    option.metadata = @"{'message': 'hi'}";
-    option.serialization = SKW_SERIALIZATION_BINARY;
-    option.reliable = YES;
-    
-    // connect
-    _data = [_peer connectWithId:strDestId options:option];
-    [self setDataCallback:_data];
+
     
 }
 
 //データチャンネルを閉じる
 - (void)close
 {
-    if (NO == _bEstablished)
-    {
-        return;
-    }
-    _bEstablished = NO;
-    
-    if (nil != _data)
-    {
-        [_data close];
-    }
+
 }
 
 
 //テキストデータを送信する
 - (void)send:(NSString *)data
 {
-    BOOL bResult = [_data send:data];
-    
-    if (bResult == true) {
-        [self appendLogWithHead:@"You" value:data];
-    }
+
 }
 
 - (void)dealloc

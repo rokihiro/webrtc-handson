@@ -50,29 +50,17 @@ class DataConnectionViewController: UIViewController {
         ////////////////////////////////////////////////////////////
         
         //APIキー、ドメインを設定
-        let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = ""
-        option.domain = ""
         
         // Peerオブジェクトのインスタンスを生成
-        _peer = SKWPeer.init(options: option);
-        
+
         
         ///////////////////////////////////////////////////////////////
         /////////////////////  3.2．接続成功・失敗  /////////////////////
         //////////////////////////////////////////////////////////////
         
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_ERROR,callback:{ (obj: NSObject!) -> Void in
-            let error:SKWPeerError = obj as! SKWPeerError
-            print("\(error)")
-        })
+        //接続エラー時の処理：コールバックを登録（ERROR)
         
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_OPEN,callback:{ (obj: NSObject!) -> Void in
-            self._id = obj as? String
-            dispatch_async(dispatch_get_main_queue(), {
-                self.idLabel.text = "your ID: \n\(self._id!)"
-            })
-        })
+        //接続成功時の処理：コールバックを登録（OPEN)
         
         ///////////////////////////////////////////////////////////////
         /////////////////////  3.3．相手からの着信  /////////////////////
@@ -80,39 +68,13 @@ class DataConnectionViewController: UIViewController {
         
         
         //コールバックを登録（CONNECTION)
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_CONNECTION, callback: { (obj:NSObject!) -> Void in
-            self._data = obj as? SKWDataConnection
-            self.setDataCallbacks(self._data!)
-            self._bEstablished = true
-            self.updateUI()
-        })
+
         
     }
     
     //データチャネルのコールバック処理
     func setDataCallbacks(data:SKWDataConnection){
-        
-        //コールバックを登録(チャンネルOPEN)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_OPEN, callback: { (obj:NSObject!) -> Void in
-            self.appendLogWithHead("system", value: "DataConnection opened")
-            self._bEstablished = true;
-            self.updateUI();
-        })]
-        
-        // コールバックを登録(DATA受信)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_DATA, callback: { (obj:NSObject!) -> Void in
-            let strValue:String = obj as! String
-            self.appendLogWithHead("Partner", value: strValue)
 
-        })]
-        
-        // コールバックを登録(チャンネルCLOSE)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
-            self._data = nil
-            self._bEstablished = false
-            self.updateUI()
-            self.appendLogWithHead("system", value:"DataConnection closed.")
-        })]
     }
     
     
@@ -121,66 +83,24 @@ class DataConnectionViewController: UIViewController {
     /////////////////////  3.4.　相手へのデータ発信　/////////////////////
     //////////////////////////////////////////////////////////////////
     
-    
+    //接続相手を選択する
     func getPeerList(){
-        if (_peer == nil) || (_id == nil) || (_id?.characters.count == 0) {
-            return
-        }
-        
-        _peer?.listAllPeers({ (peers:[AnyObject]!) -> Void in
-            self._listPeerIds = []
-            let peersArray:[String] = peers as! [String]
-            for strValue:String in peersArray{
-                print(strValue)
-                
-                if strValue == self._id{
-                    continue
-                }
-                
-                self._listPeerIds.append(strValue)
-            }
-            
-            if self._listPeerIds.count > 0{
-                self.showPeerDialog()
-            }
-            
-        })
+
     }
     
     //データチャンネルを開く
     func connect(strDestId: String) {
-        let options = SKWConnectOption()
-        options.label = "chat"
-        options.metadata = "{'message': 'hi'}"
-        options.serialization = SKWSerializationEnum.SERIALIZATION_BINARY
-        options.reliable = true
-        
-        //接続
-        _data = _peer?.connectWithId(strDestId, options: options)
-        setDataCallbacks(self._data!)
-        self.updateUI()
+
     }
     
     //接続を終了する
     func close(){
-        if _bEstablished == false{
-            return
-        }
-        _bEstablished = false
-        
-        if _data != nil {
-            _data?.close()
-        }
+
     }
     
     
     //テキストデータを送信する
     func send(data:String){
-        let bResult:Bool = (_data?.send(data))!
-        
-        if bResult == true {
-            self.appendLogWithHead("You", value: data)
-        }
     }
     
     
@@ -244,7 +164,7 @@ class DataConnectionViewController: UIViewController {
 
     
     //////////////////////////////////////////////////////////////////
-    ///////////////////// 2.6.　ハンズオンここまで  /////////////////////
+    //////////////////////// ハンズオンここまで  ////////////////////////
     /////////////////////////////////////////////////////////////////
     
     override func didReceiveMemoryWarning() {
