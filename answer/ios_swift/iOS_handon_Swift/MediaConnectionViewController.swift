@@ -180,7 +180,7 @@ class MediaConnectionViewController: UIViewController {
     func closeChat(){
         if _mediaConnection != nil{
             if _msRemote != nil{
-                var remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
+                let remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
 
                 remoteVideoView .removeSrc(_msRemote, track: 0)
                 _msRemote?.close()

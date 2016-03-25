@@ -66,8 +66,7 @@ class PeerListViewController: UITableViewController{
         let strTo:String = (self.items![indexPath.row] as? String)!
         if self.callback != nil {
             self.callback?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                //var temp:Bool = (self.callback?.respondsToSelector("call"))!
-                if ((self.callback?.respondsToSelector("call:")) != nil){
+                if (self.callback?.respondsToSelector("call:"))! == true{
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
                         let view = self.callback as! MediaConnectionViewController
                         view.call(strTo)
