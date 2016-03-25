@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/tsu.takahashi/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-a1811fd22beb4f112455dfaa4e3a71448d6cd158.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/exploded-aar/SkyWay/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0befcbdc336420627aea56bcb428b4b2709de151">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/classes-31fb11716186e6a29387bfcdc5f958283787a5a0.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/gson-2.3.1-1b7ef56c1c4a47560a31576cb8a04f017ef0a6be.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/.gradle/caches/modules-2/files-2.1/com.koushikdutta.async/androidasync/2.0.5/965d5fbe58feeb131f0f5bfa26657b593db83359/androidasync-2.0.5.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="965d5fbe58feeb131f0f5bfa26657b593db83359">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/androidasync-2.0.5-f16bb45cfe9dd766b8ec997615442a46f6e24e21.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/exploded-aar/SkyWay/jars/libs/libjingle_peerconnection.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c4c000b2612ca3c39841173186af0d875b06b979">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/libjingle_peerconnection-51a8f5e1b0916bea5d77ab7981578b4e48ab0dcf.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/classes-1044b478ee2dd6f6323044f3bafc7b33debfc3df.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-d7188fe2e285260911d0ff4cbcb5e2d80e1a22c7.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/classes-9d7af7a4307d2adb48814d29cec57f4185f73190.jar" />
+    </item>
+    <item
+        jar="/Users/tsu.takahashi/.gradle/caches/modules-2/files-2.1/org.msgpack/msgpack-core/0.7.1/3a1666ad13a1a13eb064f0a04839281bf43e273e/msgpack-core-0.7.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3a1666ad13a1a13eb064f0a04839281bf43e273e">
+        <dex dex="/Users/tsu.takahashi/GitHub/WebRTC-Hands-on-Okinawa/training/android/app/build/intermediates/pre-dexed/debug/msgpack-core-0.7.1-a888eb2fc5af69ed878817082b4d458888f37354.jar" />
+    </item>
+
+</items>
