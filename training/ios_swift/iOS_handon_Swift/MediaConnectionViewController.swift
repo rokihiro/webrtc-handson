@@ -48,12 +48,10 @@ class MediaConnectionViewController: UIViewController {
         ////////////////////////////////////////////////////////////
         
         //APIキー、ドメインを設定
-        let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = ""
-        option.domain = ""
+        
         
         // Peerオブジェクトのインスタンスを生成
-        _peer = SKWPeer.init(options: option);
+
         
         
         ///////////////////////////////////////////////////////////////
@@ -61,32 +59,20 @@ class MediaConnectionViewController: UIViewController {
         //////////////////////////////////////////////////////////////
         
         //コールバックを登録（ERROR)
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_ERROR,callback:{ (obj: NSObject!) -> Void in
-            let error:SKWPeerError = obj as! SKWPeerError
-            print("\(error)")
-        })
+
         
         // コールバックを登録(OPEN)
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_OPEN,callback:{ (obj: NSObject!) -> Void in
-            self._id = obj as? String
-            dispatch_async(dispatch_get_main_queue(), {
-                self.idLabel.text = "your ID: \n\(self._id!)"
-            })
-        })
+
         
         ///////////////////////////////////////////////////////////////
         /////////////////////  2.3．メディアの取得  /////////////////////
         //////////////////////////////////////////////////////////////
         
         //メディアを取得
-        SKWNavigator.initialize(_peer);
-        let constraints:SKWMediaConstraints = SKWMediaConstraints.init();
-        _msLocal = SKWNavigator.getUserMedia(constraints) as SKWMediaStream
-        
-        //ローカルビデオメディアをセット
 
-        let localVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_LOCAL_VIDEO.hashValue) as! SKWVideo
-        localVideoView.addSrc(_msLocal, track: 0)
+        
+        //映像を表示する為のUI
+
         
         
         
@@ -96,43 +82,12 @@ class MediaConnectionViewController: UIViewController {
         ////////////////////////////////////////////////////////////
         
         //コールバックを登録（CALL)
-        _peer?.on(SKWPeerEventEnum.PEER_EVENT_CALL, callback: { (obj:NSObject!) -> Void in
-            self._mediaConnection = obj as? SKWMediaConnection
-            self._mediaConnection?.answer(self._msLocal);
-            self._bEstablished = true
-            self.updateUI()
-        })
+
 
     }
     
     func setMediaCallbacks(media:SKWMediaConnection){
-        
-        //コールバックを登録（Stream）
-        [media .on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_STREAM, callback: { (obj:NSObject!) -> Void in
-            self._msRemote = obj as? SKWMediaStream
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                let remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
-                remoteVideoView.hidden = false
-                remoteVideoView.addSrc(self._msRemote, track: 0)
-            })
-        })]
-        
-        //コールバックを登録（Close）
-        [media .on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
-            self._msRemote = obj as? SKWMediaStream
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                let remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
-                remoteVideoView.removeSrc(self._msRemote, track: 0)
-                self._msRemote = nil
-                self._mediaConnection = nil
-                self._bEstablished = false
-                remoteVideoView.hidden = true
-            })
-            
-            self.updateUI()
-        })]
+
     }
     
     
@@ -143,53 +98,17 @@ class MediaConnectionViewController: UIViewController {
     
     
     func getPeerList(){
-        if (_peer == nil) || (_id == nil) || (_id?.characters.count == 0) {
-            return
-        }
-        
-        _peer?.listAllPeers({ (peers:[AnyObject]!) -> Void in
-            self._listPeerIds = []
-            let peersArray:[String] = peers as! [String]
-            for strValue:String in peersArray{
-                print(strValue)
-                
-                if strValue == self._id{
-                    continue
-                }
-                
-                self._listPeerIds.append(strValue)
-            }
-            
-            if self._listPeerIds.count > 0{
-                self.showPeerDialog()
-            }
 
-        })
     }
     
     //ビデオ通話を開始する
     func call(strDestId: String) {
-        let option = SKWCallOption()
-        _mediaConnection = _peer!.callWithId(strDestId, stream: _msLocal, options: option)
-        if _mediaConnection != nil {
-            self.setMediaCallbacks(self._mediaConnection!)
-            _bEstablished = true
-        }
-        self.updateUI()
+
     }
 
     //ビデオ通話を終了する
     func closeChat(){
-        if _mediaConnection != nil{
-            if _msRemote != nil{
-                let remoteVideoView:SKWVideo = self.view.viewWithTag(ViewTag.TAG_REMOTE_VIDEO.hashValue) as! SKWVideo
 
-                remoteVideoView .removeSrc(_msRemote, track: 0)
-                _msRemote?.close()
-                _msRemote = nil
-            }
-            _mediaConnection?.close()
-        }
     }
     
     
@@ -205,10 +124,7 @@ class MediaConnectionViewController: UIViewController {
         })
         
     }
-    
-    func closedMedia(){
-        
-    }
+
     
     
     

@@ -74,12 +74,10 @@ typedef NS_ENUM(NSUInteger, AlertType)
     ////////////////////////////////////////////////////////////
     
     //APIキー、ドメインを設定
-    SKWPeerOption* option = [[SKWPeerOption alloc] init];
-    option.key = @"";
-    option.domain = @"";
+
     
     // Peerオブジェクトのインスタンスを生成
-    _peer	= [[SKWPeer alloc] initWithOptions:option];
+
     
     
     ///////////////////////////////////////////////////////////////
@@ -88,37 +86,23 @@ typedef NS_ENUM(NSUInteger, AlertType)
     
     
     //接続エラー時の処理：コールバックを登録（ERROR)
-    [_peer on:SKW_PEER_EVENT_ERROR callback:^(NSObject* obj)
-     {
-         SKWPeerError* error = (SKWPeerError*)obj;
-         NSLog(@"%@",error);
-     }];
+
     
     
     
     //接続成功時の処理：コールバックを登録（OPEN)
-    [_peer on:SKW_PEER_EVENT_OPEN callback:^(NSObject* obj)
-     {
-         _id = (NSString *)obj;
-         dispatch_async(dispatch_get_main_queue(), ^{
-            UILabel* lbl = (UILabel*)[self.view viewWithTag:TAG_ID];
-            [lbl setText:[NSString stringWithFormat:@"your ID: \n%@", _id]];
-         });
-     }];
+
+    
     
     ///////////////////////////////////////////////////////////////
     /////////////////////  2.3．メディアの取得  /////////////////////
     //////////////////////////////////////////////////////////////
     
     //メディアを取得
-    [SKWNavigator initialize:_peer];
-    SKWMediaConstraints* constraints = [[SKWMediaConstraints alloc] init];
-    _msLocal = [SKWNavigator getUserMedia:constraints];
 
 
-    //ローカルビデオメディアをセット
-    SKWVideo* localVideoView = [self.view viewWithTag:TAG_LOCAL_VIDEO];
-    [localVideoView addSrc:_msLocal track:0];
+
+    //映像を表示する為のUI
 
     
     
@@ -127,50 +111,13 @@ typedef NS_ENUM(NSUInteger, AlertType)
     ////////////////////////////////////////////////////////////
     
     //コールバックを登録（CALL)
-    [_peer on:SKW_PEER_EVENT_CALL callback:^(NSObject* obj)
-     {
-         _mediaConnection = (SKWMediaConnection *)obj;
-         [_mediaConnection answer:_msLocal];
-         [self setMediaCallbacks:_mediaConnection];
-         _bEstablished = YES;
-         [self updateUI];
-     }];
 
-    }
+
+}
 
 
 - (void)setMediaCallbacks:(SKWMediaConnection *)media
 {
-
-    // コールバックを登録（Stream）
-    [media on:SKW_MEDIACONNECTION_EVENT_STREAM callback:^(NSObject* obj)
-     {
-         _msRemote = (SKWMediaStream *)obj;
-         
-         dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                            SKWVideo* remoteVideoView = (SKWVideo *)[self.view viewWithTag:TAG_REMOTE_VIDEO];
-                            [remoteVideoView setHidden:NO];
-                            [remoteVideoView addSrc:_msRemote track:0];
-                        });
-     }];
-    
-    // コールバックを登録（Close）
-    [media on:SKW_MEDIACONNECTION_EVENT_CLOSE callback:^(NSObject* obj)
-     {
-        
-         dispatch_async(dispatch_get_main_queue(), ^{
-             SKWVideo* remoteVideoView  = (SKWVideo *)[self.view viewWithTag:TAG_REMOTE_VIDEO];
-             [remoteVideoView  removeSrc:_msRemote track:0];
-             _msRemote = nil;
-             _mediaConnection = nil;
-             _bEstablished = NO;
-             [remoteVideoView setHidden:YES];
-         });
-         
-         [self updateUI];
-         
-     }];
     
 }
 
@@ -181,29 +128,7 @@ typedef NS_ENUM(NSUInteger, AlertType)
 //接続相手を選択する
 - (void)getPeerList
 {
-    if ((nil == _peer) || (nil == _id) || (0 == _id.length)){
-        return;
-    }
-    
-    [_peer listAllPeers:^(NSArray* peers)
-     {
-         _listPeerIds = [[NSMutableArray alloc] init];
 
-             for (NSString* strValue in peers)
-             {
-                 if (NSOrderedSame == [_id caseInsensitiveCompare:strValue])
-                 {
-                     continue;
-                 }
-                 
-                 [_listPeerIds addObject:strValue];
-             }
-         if((nil != _listPeerIds) && (0< [_listPeerIds count]))
-         {
-             [self showPeerListDialog];
-         }
-         
-     }];
 }
 
 - (void)call:(NSString *)strDestId
@@ -224,23 +149,7 @@ typedef NS_ENUM(NSUInteger, AlertType)
 //ビデオ通話を終了する
 - (void)closeChat
 {
-    if (nil != _mediaConnection)
-    {
-        if (nil != _msRemote)
-        {
-            SKWVideo* video = (SKWVideo *)[self.view viewWithTag:TAG_REMOTE_VIDEO];
-            if (nil != video)
-            {
-                [video removeSrc:_msRemote track:0];
-            }
-            
-            [_msRemote close];
-            
-            _msRemote = nil;
-        }
-        
-        [_mediaConnection close];
-    }
+
 }
 
 
@@ -259,14 +168,6 @@ typedef NS_ENUM(NSUInteger, AlertType)
 }
 
 
-- (void)closedMedia
-{
-    [self unsetRemoteView];
-    
-    [self clearMediaCallbacks:_mediaConnection];
-    
-    _mediaConnection = nil;
-}
 
 
     //////////////////////////////////////////////////////////////////
