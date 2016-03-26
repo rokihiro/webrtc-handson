@@ -131,18 +131,10 @@ typedef NS_ENUM(NSUInteger, AlertType)
 
 }
 
+//ビデオ通話を開始する
 - (void)call:(NSString *)strDestId
 {
-    SKWCallOption *option = [[SKWCallOption alloc]init];
-    _mediaConnection = [_peer callWithId:strDestId stream:_msLocal options:option];
-    
-    if(_mediaConnection != nil){
-        [self setMediaCallbacks:_mediaConnection];
-        _bEstablished = YES;
-    }
-    
-    [self updateUI];
-    
+   
 }
 
 
