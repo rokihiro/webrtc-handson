@@ -51,8 +51,8 @@ class DataConnectionViewController: UIViewController {
         
         //APIキー、ドメインを設定
         let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = "9a1fe3cc-2c8b-4577-97f9-d2edb382cd15"
-        option.domain = "localhost"
+        option.key = ""
+        option.domain = ""
         
         // Peerオブジェクトのインスタンスを生成
         _peer = SKWPeer.init(options: option);
@@ -93,26 +93,26 @@ class DataConnectionViewController: UIViewController {
     func setDataCallbacks(data:SKWDataConnection){
         
         //コールバックを登録(チャンネルOPEN)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_OPEN, callback: { (obj:NSObject!) -> Void in
+        data.on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_OPEN, callback: { (obj:NSObject!) -> Void in
             self.appendLogWithHead("system", value: "DataConnection opened")
             self._bEstablished = true;
             self.updateUI();
-        })]
+        })
         
         // コールバックを登録(DATA受信)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_DATA, callback: { (obj:NSObject!) -> Void in
+        data.on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_DATA, callback: { (obj:NSObject!) -> Void in
             let strValue:String = obj as! String
             self.appendLogWithHead("Partner", value: strValue)
 
-        })]
+        })
         
         // コールバックを登録(チャンネルCLOSE)
-        [data .on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
+        data.on(SKWDataConnectionEventEnum.DATACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
             self._data = nil
             self._bEstablished = false
             self.updateUI()
             self.appendLogWithHead("system", value:"DataConnection closed.")
-        })]
+        })
     }
     
     

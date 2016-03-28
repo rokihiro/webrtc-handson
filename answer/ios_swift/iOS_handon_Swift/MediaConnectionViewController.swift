@@ -49,8 +49,8 @@ class MediaConnectionViewController: UIViewController {
         
         //APIキー、ドメインを設定
         let option: SKWPeerOption = SKWPeerOption.init();
-        option.key = "9a1fe3cc-2c8b-4577-97f9-d2edb382cd15"
-        option.domain = "localhost"
+        option.key = ""
+        option.domain = ""
         
         // Peerオブジェクトのインスタンスを生成
         _peer = SKWPeer.init(options: option);
@@ -108,7 +108,7 @@ class MediaConnectionViewController: UIViewController {
     func setMediaCallbacks(media:SKWMediaConnection){
         
         //コールバックを登録（Stream）
-        [media .on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_STREAM, callback: { (obj:NSObject!) -> Void in
+        media.on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_STREAM, callback: { (obj:NSObject!) -> Void in
             self._msRemote = obj as? SKWMediaStream
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -116,10 +116,10 @@ class MediaConnectionViewController: UIViewController {
                 remoteVideoView.hidden = false
                 remoteVideoView.addSrc(self._msRemote, track: 0)
             })
-        })]
+        })
         
         //コールバックを登録（Close）
-        [media .on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
+        media.on(SKWMediaConnectionEventEnum.MEDIACONNECTION_EVENT_CLOSE, callback: { (obj:NSObject!) -> Void in
             self._msRemote = obj as? SKWMediaStream
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -132,7 +132,7 @@ class MediaConnectionViewController: UIViewController {
             })
             
             self.updateUI()
-        })]
+        })
     }
     
     

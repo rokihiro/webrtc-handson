@@ -14,7 +14,6 @@
 		A86668541CA15F7D001CCECD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A86668521CA15F7D001CCECD /* LaunchScreen.storyboard */; };
 		A866685F1CA15F7D001CCECD /* iOS_handon_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A866685E1CA15F7D001CCECD /* iOS_handon_SwiftTests.swift */; };
 		A866686A1CA15F7D001CCECD /* iOS_handon_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86668691CA15F7D001CCECD /* iOS_handon_SwiftUITests.swift */; };
-		A866687B1CA21E4B001CCECD /* SkyWay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A866687A1CA21E4B001CCECD /* SkyWay.framework */; };
 		A86668861CA3D576001CCECD /* PeerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86668851CA3D576001CCECD /* PeerListViewController.swift */; };
 		A866688A1CA40051001CCECD /* DataConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86668891CA40051001CCECD /* DataConnectionViewController.swift */; };
 		A86B7AEC1CA1A13100EA9575 /* MediaConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86B7AEB1CA1A13100EA9575 /* MediaConnectionViewController.swift */; };
@@ -31,6 +30,7 @@
 		A86B7B051CA1A39700EA9575 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A86B7B041CA1A39700EA9575 /* libstdc++.6.0.9.tbd */; };
 		A86B7B071CA1A3A400EA9575 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A86B7B061CA1A3A400EA9575 /* libsqlite3.tbd */; };
 		A86B7B091CA1A3B000EA9575 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A86B7B081CA1A3B000EA9575 /* libicucore.tbd */; };
+		A8EB19611CA8AEBD00867C6E /* SkyWay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8EB19601CA8AEBD00867C6E /* SkyWay.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,6 @@
 		A86668651CA15F7D001CCECD /* iOS_handson_Swift.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOS_handson_Swift.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A86668691CA15F7D001CCECD /* iOS_handon_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_handon_SwiftUITests.swift; sourceTree = "<group>"; };
 		A866686B1CA15F7D001CCECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A866687A1CA21E4B001CCECD /* SkyWay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SkyWay.framework; sourceTree = "<group>"; };
 		A866687C1CA21EB9001CCECD /* iOS_handon_Swift_Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS_handon_Swift_Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		A86668851CA3D576001CCECD /* PeerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerListViewController.swift; sourceTree = "<group>"; };
 		A86668891CA40051001CCECD /* DataConnectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataConnectionViewController.swift; path = ../DataConnectionViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		A86B7B041CA1A39700EA9575 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		A86B7B061CA1A3A400EA9575 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		A86B7B081CA1A3B000EA9575 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		A8EB19601CA8AEBD00867C6E /* SkyWay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SkyWay.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,9 +89,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A866687B1CA21E4B001CCECD /* SkyWay.framework in Frameworks */,
 				A86B7B091CA1A3B000EA9575 /* libicucore.tbd in Frameworks */,
 				A86B7B071CA1A3A400EA9575 /* libsqlite3.tbd in Frameworks */,
+				A8EB19611CA8AEBD00867C6E /* SkyWay.framework in Frameworks */,
 				A86B7B051CA1A39700EA9575 /* libstdc++.6.0.9.tbd in Frameworks */,
 				A86B7B031CA1A38900EA9575 /* libc++.tbd in Frameworks */,
 				A86B7B011CA1A35200EA9575 /* SystemConfiguration.framework in Frameworks */,
@@ -126,7 +126,7 @@
 		A866683D1CA15F7D001CCECD = {
 			isa = PBXGroup;
 			children = (
-				A866687A1CA21E4B001CCECD /* SkyWay.framework */,
+				A8EB19601CA8AEBD00867C6E /* SkyWay.framework */,
 				A86B7B081CA1A3B000EA9575 /* libicucore.tbd */,
 				A86B7B061CA1A3A400EA9575 /* libsqlite3.tbd */,
 				A86B7B041CA1A39700EA9575 /* libstdc++.6.0.9.tbd */,
@@ -260,7 +260,7 @@
 				TargetAttributes = {
 					A86668451CA15F7D001CCECD = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = LMR683U652;
+						DevelopmentTeam = X9U3TMB2FF;
 					};
 					A86668591CA15F7D001CCECD = {
 						CreatedOnToolsVersion = 7.2;
@@ -479,7 +479,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.skyway.iOS-handon-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.skyway.iOS-hando";
 				PRODUCT_NAME = iOS_handson_Swift;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS_handon_Swift_Bridging-Header.h";
@@ -501,7 +501,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.skyway.iOS-handon-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.skyway.iOS-hando";
 				PRODUCT_NAME = iOS_handson_Swift;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS_handon_Swift_Bridging-Header.h";
