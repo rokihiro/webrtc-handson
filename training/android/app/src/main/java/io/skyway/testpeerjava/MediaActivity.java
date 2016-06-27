@@ -58,21 +58,48 @@ public class MediaActivity extends Activity {
 		_bEstablished = false;
 		_handler = new Handler(Looper.getMainLooper());
 		_listPeerIds = new ArrayList<>();
-		Context context = getApplicationContext();
+		Context context = this;
+
+		/////////////////////////////////////////////////////////////
+		/////////////////////  i．サーバへ接続  ///////////////////////
+		////////////////////////////////////////////////////////////
 
 		// APIキー、ドメインを設定
 
+
 		// Peerオブジェクトのインスタンスを生成
 
-		// コールバックを登録(OPEN)
 
-		// コールバックを登録(CALL)
-
-		// コールバックを登録(ERROR)
+		///////////////////////////////////////////////////////////////
+		//////////////////  ⅱ．ローカルメディアの取得  ///////////////////
+		///////////////////////////////////////////////////////////////
 
 		// メディアを取得
 
 		// 映像を表示する為のUI
+
+
+		///////////////////////////////////////////////////////////////
+		/////////////////////  ⅲ．Peerのcallback  /////////////////////
+		//////////////////////////////////////////////////////////////
+
+
+		// コールバックを登録(OPEN)
+
+
+		// コールバックを登録(CALL)
+
+
+		// コールバックを登録(ERROR)
+		_peer.on(Peer.PeerEventEnum.ERROR, new OnCallback() {
+			@Override
+			public void onCallback(Object object) {
+				PeerError error = (PeerError) object;
+				Log.d(TAG, "[On/Error]" + error);
+			}
+		});
+
+
 
 		// アクションボタン
         Button btnAction = (Button) findViewById(R.id.btnAction);
@@ -90,27 +117,74 @@ public class MediaActivity extends Activity {
                 v.setEnabled(true);
             }
         });
+
+		updateUI();
 	}
+
+
+	///////////////////////////////////////////////////////////////////
+	/////////////////////  ⅳ.　Peer一覧の取得　//////////////////////////
+	///////////////////////////////////////////////////////////////////
+
+	// 接続相手を選択する
+	private void getPeerList(){
+
+		_peer.listAllPeers(new OnCallback() {
+			@Override
+			public void onCallback(Object object) {
+
+				_listPeerIds.clear();
+
+				JSONArray peers = (JSONArray) object;
+				for (int i = 0; peers.length() > i; i++) {
+					String strValue = "";
+					try {
+						strValue = peers.getString(i);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					if (0 != _id.compareToIgnoreCase(strValue)) {
+						_listPeerIds.add(strValue);
+					}
+				}
+
+				if ((null != _listPeerIds) && (0 < _listPeerIds.size())) {
+					showPeerListDialog();
+				}
+			}
+		});
+	}
+
+	///////////////////////////////////////////////////////////////////
+	/////////////////////  ⅴ.　通話の開始・終了　/////////////////////////
+	///////////////////////////////////////////////////////////////////
 
 	// ビデオ通話をかける
 	private void call(String strPeerId){
 
 	}
 
-    // ビデオ通話を終了する
-    private void close(){
+	// ビデオ通話を終了する
+	private void close(){
 
-    }
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////  ⅵ.　Mediaのcallback設定　///////////////////////
+	///////////////////////////////////////////////////////////////////
 
 	// メディアチャンネルのコールバック処理
 	private void setMediaCallback(MediaConnection media){
+		//コールバックを登録（Stream）
 
+		//コールバックを登録（Close）
 	}
 
-	// 接続相手を選択する
-	private void getPeerList(){
+	//////////////////////////////////////////////////////////////////
+	/////////////////////  2.6.　UIのセットアップ  /////////////////////
+	/////////////////////////////////////////////////////////////////
 
-	}
 
 	// UIの表示を更新する
 	private void updateUI() {
